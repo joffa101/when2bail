@@ -41,9 +41,6 @@ def PrintTickerDetails(tick, with_returns=False):
   print dict['52_week_low'],
   print dict['50day_moving_avg'],
   print dict['200day_moving_avg']
-  #print myystockquote.get_change(code),
-  #print myystockquote.get_52_week_high(code),
-  #print myystockquote.get_52_week_low(code)
 
 class myPorts(object):
 
