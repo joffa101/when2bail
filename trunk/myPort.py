@@ -21,13 +21,12 @@ def PrintPosition(pos, with_returns=False):
   """Print single position."""
   print pos.ticker_id.split(":")[1].ljust(5),
   d = pos.position_data
-  print d.shares.rjust(5),
-  #print "%1.2f" % float(((d.gain_percentage) * 100)),
-  #print "%1.2f" % ((float(d.gain_percentage) * 100)),
-  print (d.cost_basis.money[0].amount).rjust(10),
-  print "%0.2f" % float(d.days_gain.money[0].amount),
-  print "%1.2f" % float(d.gain.money[0].amount),
-  print "%2.2f" % float(d.market_value.money[0].amount)
+  print ("%1.0f" % float(d.shares)).rjust(4),
+  print ("%1.2f" % float(d.cost_basis.money[0].amount)).rjust(10),
+  print ("%1.2f" % float(d.days_gain.money[0].amount)).rjust(10),
+  print ("%1.2f" % float(d.market_value.money[0].amount)).rjust(10),
+  print ("%1.2f" % float(d.gain.money[0].amount)).rjust(10),
+  print ("%1.2f" % (float(d.gain_percentage) * 100)).rjust(7)
 
 def PrintTickerDetails(tick, with_returns=False):
   """Print single ticker."""
@@ -66,12 +65,12 @@ class myPorts(object):
     portfolios = self.GetPortfolios(with_returns, inline_positions)
     for pfl in portfolios:
       positions = self.GetPositions(pfl, with_returns, inline_transactions)
-      print '================================================================================'
-      print 'Ticker Shares Gain%  Cost  Days Gain Market Value'
-      print '================================================================================'
+      print '==============================================================='
+      print 'Tick   Num       Cost  Days Gain      Value  Prof/loss    %PaL'
+      print '==============================================================='
       for pos in positions:
         PrintPosition(pos, with_returns)
-      print '================================================================================'
+      print '==============================================================='
 
   def ShowTickerDetails(self, with_returns=False, inline_positions=False,
       inline_transactions=False):
