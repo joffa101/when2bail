@@ -4,7 +4,6 @@
 # /usr/local/src/google/gdata-2.0.0/samples/finance
 #
 
-
 __author__ = 'Geoff@GeoffLamb.com'
 
 
@@ -15,25 +14,27 @@ from gdata.finance import \
     Price, Commission, Money
 import datetime
 import sys
-import myystockquote
+# http://www.goldb.org/ystockquote.html
+import ystockquote
 
 def PrintPosition(pos, with_returns=False):
   """Print single position."""
-  print pos.ticker_id.split(":")[1],
+  print pos.ticker_id.split(":")[1].ljust(5),
   d = pos.position_data
-  print d.shares,
-  print "%1.2f" % (float(d.gain_percentage) * 100),
-  print "%1.2f" % float(d.cost_basis.money[0].amount),
-  print "%1.2f" % float(d.days_gain.money[0].amount),
+  print d.shares.rjust(5),
+  #print "%1.2f" % float(((d.gain_percentage) * 100)),
+  #print "%1.2f" % ((float(d.gain_percentage) * 100)),
+  print (d.cost_basis.money[0].amount).rjust(10),
+  print "%0.2f" % float(d.days_gain.money[0].amount),
   print "%1.2f" % float(d.gain.money[0].amount),
-  print "%1.2f" % float(d.market_value.money[0].amount)
+  print "%2.2f" % float(d.market_value.money[0].amount)
 
 def PrintTickerDetails(tick, with_returns=False):
   """Print single ticker."""
   code =  tick + '.AX'
-  dict = myystockquote.get_all(code)
+  dict = ystockquote.get_all(code)
   print tick,
-  print dict['price'],
+  print "%1.2f" % (float(dict['price'])),
   print dict['change'],
   print dict['volume'],
   print dict['avg_daily_volume'],
@@ -79,7 +80,8 @@ class myPorts(object):
       positions = self.GetPositions(pfl, with_returns, inline_transactions)
       print ''
       print '================================================================================'
-      print 'Ticker Shares Gain%  Cost  Days Gain Market Value'
+      print 'Ticker price change volume avg_daily_volume 52_week_high 52_week_low 50day_moving_avg 200day_moving_avg'
+
       print '================================================================================'
       for pos in positions:
         tick = pos.ticker_id.split(":")[1]
@@ -105,5 +107,5 @@ if __name__ == '__main__':
     sys.exit(1)
 
   getPort = myPorts(email, password)
-  getPort.ShowDetails(with_returns=True)
   #getPort.ShowTickerDetails(with_returns=True)
+  getPort.ShowDetails(with_returns=True)
