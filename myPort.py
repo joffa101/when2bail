@@ -32,15 +32,38 @@ def PrintTickerDetails(tick, with_returns=False):
   """Print single ticker."""
   code =  tick + '.AX'
   dict = ystockquote.get_all(code)
-  print tick,
-  print "%1.2f" % (float(dict['price'])),
-  print dict['change'],
-  print dict['volume'],
-  print dict['avg_daily_volume'],
-  print dict['52_week_high'],
-  print dict['52_week_low'],
-  print dict['50day_moving_avg'],
-  print dict['200day_moving_avg']
+  Fprice = float(dict['price'])
+  Fchange = float(dict['change'])
+  Fvolume = float(dict['volume'])
+  Favg_daily_volume = float(dict['avg_daily_volume'])
+  F52_week_high = float(dict['52_week_high'])
+  F52_week_low = float(dict['52_week_low'])
+  F50day_moving_avg = float(dict['50day_moving_avg'])
+  F200day_moving_avg = float(dict['200day_moving_avg'])
+  print tick.ljust(5),
+  print ("%1.2f" % Fprice).rjust(6),
+  print ("%1.2f" % Fchange).rjust(6),
+  #change %
+  print ("%1.2f" % (Fchange/Fprice*100)).rjust(6),
+  print "%",
+  print "|",
+  print ("%1.0f" % Fvolume).rjust(8),
+  print ("%1.0f" % ((Fvolume - Favg_daily_volume)/Favg_daily_volume*100)).rjust(4),
+  print "%",
+  print "|",
+  print ("%1.2f" % F52_week_low).rjust(6),
+  print "-",
+  print ("%1.2f" % F52_week_high).ljust(6),
+  print ("%1.0f" % ((Fprice - F52_week_high)/F52_week_high*100)).rjust(4),
+  print "%",
+  print "|",
+  print ("%1.2f" % F50day_moving_avg).rjust(6),
+  print ("%1.2f" % ((Fprice - F50day_moving_avg)/F50day_moving_avg*100)).rjust(6),
+  print "%",
+  print "|",
+  print ("%1.2f" % F200day_moving_avg).rjust(6),
+  print ("%1.2f" % ((Fprice - F200day_moving_avg)/F200day_moving_avg*100)).rjust(6),
+  print "%"
 
 class myPorts(object):
 
@@ -78,14 +101,13 @@ class myPorts(object):
     for pfl in portfolios:
       positions = self.GetPositions(pfl, with_returns, inline_transactions)
       print ''
-      print '================================================================================'
-      print 'Ticker price change volume avg_daily_volume 52_week_high 52_week_low 50day_moving_avg 200day_moving_avg'
-
-      print '================================================================================'
+      print '==========================================================================================================='
+      print 'Tick   price change  change% |          volume |  52 week Range    High |       50 day MA |      200 day MA'
+      print '==========================================================================================================='
       for pos in positions:
         tick = pos.ticker_id.split(":")[1]
         PrintTickerDetails(tick, with_returns)
-      print '================================================================================'
+      print '==========================================================================================================='
       print ''
 
 
@@ -106,5 +128,5 @@ if __name__ == '__main__':
     sys.exit(1)
 
   getPort = myPorts(email, password)
-  #getPort.ShowTickerDetails(with_returns=True)
+  getPort.ShowTickerDetails(with_returns=True)
   getPort.ShowDetails(with_returns=True)
