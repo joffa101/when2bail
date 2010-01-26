@@ -34,8 +34,8 @@ def PrintTickerDetails(tick, with_returns=False):
   dict = ystockquote.get_all(code)
   Fprice = float(dict['price'])
   Fchange = float(dict['change'])
-  Fvolume = float(dict['volume'])
-  Favg_daily_volume = float(dict['avg_daily_volume'])
+  #Fvolume = float(dict['volume'])
+  #Favg_daily_volume = float(dict['avg_daily_volume'])
   F52_week_high = float(dict['52_week_high'])
   F52_week_low = float(dict['52_week_low'])
   F50day_moving_avg = float(dict['50day_moving_avg'])
@@ -47,10 +47,10 @@ def PrintTickerDetails(tick, with_returns=False):
   print ("%1.2f" % (Fchange/Fprice*100)).rjust(6),
   print "%",
   print "|",
-  print ("%1.0f" % Fvolume).rjust(8),
-  print ("%1.0f" % ((Fvolume - Favg_daily_volume)/Favg_daily_volume*100)).rjust(4),
-  print "%",
-  print "|",
+  #print ("%1.0f" % Fvolume).rjust(8),
+  #print ("%1.0f" % ((Fvolume - Favg_daily_volume)/Favg_daily_volume*100)).rjust(4),
+  #print "%",
+  #print "|",
   print ("%1.2f" % F52_week_low).rjust(6),
   print "-",
   print ("%1.2f" % F52_week_high).ljust(6),
@@ -102,7 +102,8 @@ class myPorts(object):
       positions = self.GetPositions(pfl, with_returns, inline_transactions)
       print ''
       print '==========================================================================================================='
-      print 'Tick   price change  change% |          volume |  52 week Range    High |       50 day MA |      200 day MA'
+      #print 'Tick   price change  change% |          volume |  52 week Range    High |       50 day MA |      200 day MA'
+      print 'Tick   price change  change% |  52 week Range    High |       50 day MA |      200 day MA'
       print '==========================================================================================================='
       for pos in positions:
         tick = pos.ticker_id.split(":")[1]
