@@ -54,15 +54,24 @@ def PrintTickerDetails(tick, with_returns=False):
   print ("%1.2f" % F52_week_low).rjust(6),
   print "-",
   print ("%1.2f" % F52_week_high).ljust(6),
-  print ("%1.0f" % ((Fprice - F52_week_high)/F52_week_high*100)).rjust(4),
+  try:
+    print ("%1.0f" % ((Fprice - F52_week_high)/F52_week_high*100)).rjust(4),
+  except ZeroDivisionError:
+    print ("0"),
   print "%",
   print "|",
   print ("%1.2f" % F50day_moving_avg).rjust(6),
-  print ("%1.2f" % ((Fprice - F50day_moving_avg)/F50day_moving_avg*100)).rjust(6),
+  try:
+    print ("%1.2f" % ((Fprice - F50day_moving_avg)/F50day_moving_avg*100)).rjust(6),
+  except ZeroDivisionError:
+    print ("     0"),
   print "%",
   print "|",
   print ("%1.2f" % F200day_moving_avg).rjust(6),
-  print ("%1.2f" % ((Fprice - F200day_moving_avg)/F200day_moving_avg*100)).rjust(6),
+  try:
+    print ("%1.2f" % ((Fprice - F200day_moving_avg)/F200day_moving_avg*100)).rjust(6),
+  except ZeroDivisionError:
+    print ("     0"),
   print "%"
 
 class myPorts(object):
@@ -101,14 +110,14 @@ class myPorts(object):
     for pfl in portfolios:
       positions = self.GetPositions(pfl, with_returns, inline_transactions)
       print ''
-      print '==========================================================================================================='
+      print '========================================================================================='
       #print 'Tick   price change  change% |          volume |  52 week Range    High |       50 day MA |      200 day MA'
-      print 'Tick   price change  change% |  52 week Range    High |       50 day MA |      200 day MA'
-      print '==========================================================================================================='
+      print 'Tick   price change  change% |  52 week Range High |       50 day MA |      200 day MA'
+      print '========================================================================================='
       for pos in positions:
         tick = pos.ticker_id.split(":")[1]
         PrintTickerDetails(tick, with_returns)
-      print '==========================================================================================================='
+      print '========================================================================================='
       print ''
 
 
