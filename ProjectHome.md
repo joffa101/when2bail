@@ -1,0 +1,1 @@
+Mash up between Google Finance API and Yahoo Finance non-API written in python to keep track of stock and when to sell them
